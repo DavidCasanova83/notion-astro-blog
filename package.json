@@ -10,9 +10,14 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^5.3.0",
     "@astrojs/mdx": "^3.1.9",
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^4.16.13"
+    "@notionhq/client": "^2.2.15",
+    "astro": "^4.16.13",
+    "dotenv": "^16.4.5",
+    "markdown-it": "^14.1.0",
+    "notion-to-md": "^3.1.1"
   }
 }

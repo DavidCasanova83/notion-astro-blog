@@ -1,0 +1,43 @@
+---
+import { getPosts } from '../lib/getPosts';
+import { getPostContent } from '../lib/getPostContent';
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const postContent = await getPostContent(post.id);
+
+// Vérifier si postContent est null
+if (!postContent) {
+  // Gérer le cas où le contenu est indisponible
+  throw new Error('Le contenu de l\'article est indisponible.');
+}
+
+// Convertir le contenu Markdown en HTML
+const htmlContent = md.render(postContent.markdown);
+---
+
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{post.title}</title>
+  </head>
+  <body>
+    <h1>{post.title}</h1>
+    <p>Date de publication : {post.publishDate}</p>
+    {post.tag && (
+      <p>Tag : {post.tag}</p>
+    )}
+    <article set:html={htmlContent}></article>
+  </body>
+</html>
